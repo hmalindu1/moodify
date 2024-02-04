@@ -1,3 +1,11 @@
+/* ====================================================================================================================
+ * Title : Home Page
+ * Description :This renders the first welcome page of the app
+ * Author : Hashan
+ * Date : February 1st, 2024
+ * ====================================================================================================================
+ */
+
 import Link from 'next/link'
 
 export default function Home() {
