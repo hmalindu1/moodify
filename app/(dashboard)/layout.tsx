@@ -1,4 +1,9 @@
-import { UserButton } from "@clerk/nextjs"
+/* ================================================================================================ /
+ * Title : Dashboard Layout
+ * Description : This is the main layout for the app.It contains the Left side Navbar, header and the content
+ * Author : Hashan
+ * Date : February 11th, 2024
+ /* ================================================================================================ */
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
