@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs'
 import { prisma } from './db'
 
-export const getUserByClerkId = async ({ includes = {}, select = {} }) => {
+export const getUserByClerkId = async () => {
   const { userId } = await auth() // Check if user is signed in
 
   /** Find user,if user does not exist in database, then throw an error, because at this point if user is not in database, it means
@@ -12,8 +12,6 @@ export const getUserByClerkId = async ({ includes = {}, select = {} }) => {
     where: {
       clerkId: userId,
     },
-    includes,
-    select,
   })
 
   return user
