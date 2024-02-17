@@ -22,16 +22,16 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         Mood
       </aside>
       {/* Define the content area */}
-      <div className="ml-[200px]">
+      <div className="ml-[200px] h-full">
         {/* Define the header */}
         <header className="h-[60px] border-b border-black/10">
-          <div className="w-full h-full px-6 flex items-center justify-end">
+          <div className="h-full w-full px-6 flex items-center justify-end">
             {/* Render the UserButton component */}
             <UserButton />
           </div>
         </header>
         {/* Render the children components within the content area */}
-        <div>{children}</div>
+        <div className="h-[calc(100vh-60px)]">{children}</div>
       </div>
     </div>
   )
