@@ -8,7 +8,7 @@
 /***
  * To pass the full path URLs to the fetch API, this function will create a dynamic url, wether we are on the localhost or on the production
  */
-export const createURL = (path) => {
+const createURL = (path) => {
   return window.location.origin + path
 }
 
