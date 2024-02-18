@@ -1,3 +1,10 @@
+/* ================================================================================================ /
+ * Title : Journal page
+ * Description : This renders the journal page
+ * Author : Hashan
+ * Date : February 17th, 2024
+ /* ================================================================================================ */
+
 import EntryCard from '@/components/EntryCard'
 import NewEntryCard from '@/components/NewEntryCard'
 import { getUserByClerkId } from '@/utils/auth'
