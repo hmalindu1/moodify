@@ -31,7 +31,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </header>
         {/* Render the children components within the content area */}
-        <div className="h-[calc(100vh-60px)]">{children}</div>
+        {/* <div className="h-[calc(100vh-60px)]">{children}</div> */}
+        <div>{children}</div>
       </div>
     </div>
   )
