@@ -10,6 +10,7 @@ import NewEntryCard from '@/components/NewEntryCard'
 import { getUserByClerkId } from '@/utils/auth'
 import { prisma } from '@/utils/db'
 import Link from 'next/link'
+import { analyze } from '@/utils/ai'
 
 const getEntries = async () => {
   const user = await getUserByClerkId()
@@ -21,6 +22,7 @@ const getEntries = async () => {
       createdAt: 'desc',
     },
   })
+  // await analyze('What is the cost for using "gpt-3.5-turbo" model? I did not added the credit card to my OpenAI account. Will that be a problem?')
   return entries
 }
 
