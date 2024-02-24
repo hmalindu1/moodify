@@ -22,7 +22,10 @@ const getEntries = async () => {
       createdAt: 'desc',
     },
   })
-  // await analyze('What is the cost for using "gpt-3.5-turbo" model? I did not added the credit card to my OpenAI account. Will that be a problem?')
+  // await analyze(`I am going to give you a journal entry, I want you to analyze for few things. I need the mood, a summary, what the subject is, and a color representing the mood. You need to respont back with formatted JSON like so: {"mood": "", "summary": "", "subject": "", "color": "", "nagative": ""}.
+  
+  // entry: Today was a realy great day. I was able to get an order from fiverr have been dying to get
+  // `)
   return entries
 }
 

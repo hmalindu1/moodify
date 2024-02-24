@@ -8,6 +8,7 @@
 import { OpenAI } from '@langchain/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
 import { z } from 'zod'
+import { PromptTemplate } from "langchain/prompts";
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
@@ -23,14 +24,33 @@ const parser = StructuredOutputParser.fromZodSchema(
     color: z
       .string()
       .describe(
-        'a hexadecimal color code represents the mood of the entry. Example # #2ecc71 for green representing the happiness.'
+        'a hexadecimal color code that represents the mood of the entry. Example # #2ecc71 for green representing the happiness.'
       ),
   })
 )
 
-export const analyze = async (prompts) => {
+const getPrompt = async (content) => {
+  const formatted_instructions = parser.getFormatInstructions()
+
+  const prompt = new PromptTemplate({
+    template:
+      'Analyze the following journal entry. Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}',
+    inputVariables: ['entry'],
+    partialVariables: { formatted_instructions },
+  })
+
+  const input = await prompt.format({
+    entry: content,
+  })
+
+  console.log(input)
+  return input
+}
+
+export const analyze = async (content) => {
+  const input = await getPrompt(content)
   const model = new OpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo' })
-  const result = await model.invoke(prompts)
+  const result = await model.invoke(input)
 
   console.log(result)
 }
