@@ -37,7 +37,7 @@ const parser = StructuredOutputParser.fromZodSchema(
  */
 const getPrompt = async (content: string) => {
   // Obtains a string with formatting instructions for the parser's expected output schema
-  const formatted_instructions = parser.getFormatInstructions()
+  const format_instructions = parser.getFormatInstructions()
 
   // Creates a new prompt template with placeholders for the journal entry and formatting instructions
   const prompt = new PromptTemplate({
@@ -47,7 +47,7 @@ const getPrompt = async (content: string) => {
       {format_instructions}
       {entry}`,
     inputVariables: ['entry'], // Declares 'entry' as the variable to be replaced in the template
-    partialVariables: { formatted_instructions }, // Supplies the formatted instructions to the template
+    partialVariables: { format_instructions }, // Supplies the formatted instructions to the template
   })
 
   // Fills in the prompt template with the actual journal entry content
