@@ -8,7 +8,7 @@
 import { OpenAI } from '@langchain/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
 import { z } from 'zod'
-import { PromptTemplate } from "langchain/prompts";
+import { PromptTemplate } from 'langchain/prompts'
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
@@ -16,6 +16,7 @@ const parser = StructuredOutputParser.fromZodSchema(
       .string()
       .describe('the mood of the person who wrote the journal entry.'),
     summary: z.string().describe('quick summary of the entire entry.'),
+    subject: z.string().describe('the subject of the journal entry.'),
     negative: z
       .boolean()
       .describe(
@@ -54,9 +55,6 @@ const getPrompt = async (content: string) => {
   const input = await prompt.format({
     entry: content,
   })
-
-  // Logs the formatted prompt to the console for debugging
-  console.log(input)
   // Returns the formatted prompt which is ready to be sent to the AI model
   return input
 }
@@ -77,6 +75,9 @@ export const analyze = async (content: string) => {
   // Invokes the AI model with the formatted input and waits for the result
   const result = await model.invoke(input)
 
-  // Logs the result of the AI model analysis to the console
-  console.log(result)
+  try {
+    return parser.parse(result)
+  } catch (error) {
+    console.log(error);
+  }
 }
