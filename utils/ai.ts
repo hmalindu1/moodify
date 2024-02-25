@@ -29,28 +29,54 @@ const parser = StructuredOutputParser.fromZodSchema(
   })
 )
 
-const getPrompt = async (content) => {
+/**
+ * Obtains a string with formatting instructions for the parser's expected output schema
+ *
+ * @param {string} content - the journal entry content
+ * @return {Promise<string>} the formatted prompt which is ready to be sent to the AI model
+ */
+const getPrompt = async (content: string) => {
+  // Obtains a string with formatting instructions for the parser's expected output schema
   const formatted_instructions = parser.getFormatInstructions()
 
+  // Creates a new prompt template with placeholders for the journal entry and formatting instructions
   const prompt = new PromptTemplate({
-    template:
-      'Analyze the following journal entry. Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}',
-    inputVariables: ['entry'],
-    partialVariables: { formatted_instructions },
+    template: `
+      Analyze the following journal entry. Follow the instructions and format your response to match 
+      the format instructions, no matter what! 
+      {format_instructions}
+      {entry}`,
+    inputVariables: ['entry'], // Declares 'entry' as the variable to be replaced in the template
+    partialVariables: { formatted_instructions }, // Supplies the formatted instructions to the template
   })
 
+  // Fills in the prompt template with the actual journal entry content
   const input = await prompt.format({
     entry: content,
   })
 
+  // Logs the formatted prompt to the console for debugging
   console.log(input)
+  // Returns the formatted prompt which is ready to be sent to the AI model
   return input
 }
 
-export const analyze = async (content) => {
+/**
+ * Generates a formatted prompt to be provided to the AI model for analysis
+ *
+ * @param {string} content - the input content to be analyzed
+ * @return {Promise<void>} a promise that resolves when the analysis is complete
+ */
+export const analyze = async (content: string) => {
+  // Generates a formatted prompt to be provided to the AI model for analysis
   const input = await getPrompt(content)
+
+  // Creates an instance of the OpenAI model with specific parameters
   const model = new OpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo' })
+
+  // Invokes the AI model with the formatted input and waits for the result
   const result = await model.invoke(input)
 
+  // Logs the result of the AI model analysis to the console
   console.log(result)
 }
