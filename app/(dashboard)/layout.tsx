@@ -6,6 +6,12 @@
  /* ================================================================================================ */
 
 import { UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
+
+const links = [
+  { label: 'Home', href: '/' },
+  { label: 'Journal', href: '/journal' },
+]
 
 /**
  * Create a dashboard layout component.
@@ -19,7 +25,14 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="h-screen w-screen relative">
       {/* Define the sidebar */}
       <aside className="absolute w-[200px] top-0 left-0 h-full border-r border-black/10">
-        Mood
+        <div>Mood</div>
+        <ul>
+          {links.map(link => (
+            <li key={link.href} className='px-2 py-6 text-xl'>
+              <Link href={link.href}>{link.label}</Link>
+            </li>
+          ))}
+        </ul>
       </aside>
       {/* Define the content area */}
       <div className="ml-[200px] h-full">
