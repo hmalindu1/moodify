@@ -95,7 +95,7 @@ export const analyze = async (content: string) => {
  */
 export const qa = async (
   question: string,
-  entries: Array<{ content: string; id: string; createdAt: Date }>
+  entries: Array<{ content: string; id?: string; createdAt: Date }>
 ): Promise<string> => {
   // Maps the journal entries to Document objects for processing, including content and metadata (source and date)
   const docs = entries.map(
