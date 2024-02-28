@@ -1,6 +1,6 @@
 /* ================================================================================================ /
  * Title : Question Component
- * Description : 
+ * Description : Contains the form that submit the question
  * Author : Hashan
  * Date : February 27th, 2024
  /* ================================================================================================ */
