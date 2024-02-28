@@ -8,7 +8,11 @@
 import { OpenAI } from '@langchain/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
 import { z } from 'zod'
-import { PromptTemplate } from 'langchain/prompts'
+import { PromptTemplate } from '@langchain/core/prompts'
+import { Document } from 'langchain/document'
+import { loadQARefineChain } from 'langchain/chains'
+import { OpenAIEmbeddings } from '@langchain/openai'
+import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
@@ -78,6 +82,51 @@ export const analyze = async (content: string) => {
   try {
     return parser.parse(result)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
+}
+
+/**
+ * Processes a question and retrieves an answer from a set of journal entries.
+ *
+ * @param {string} question - The question to be answered
+ * @param {Array<{content: string, id: string, createdAt: Date}>} entries - The array of journal entries
+ * @return {Promise<string>} The retrieved answer for the provided question
+ */
+export const qa = async (
+  question: string,
+  entries: Array<{ content: string; id: string; createdAt: Date }>
+): Promise<string> => {
+  // Maps the journal entries to Document objects for processing, including content and metadata (source and date)
+  const docs = entries.map(
+    (entry) =>
+      new Document({
+        pageContent: entry.content, // The content of the journal entry
+        metadata: { source: entry.id, date: entry.createdAt }, // Metadata with the entry's ID and creation date
+      })
+  )
+
+  // Creates an instance of the OpenAI model with specific parameters for processing the question
+  const model = new OpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo' })
+
+  // Loads a pre-configured processing chain for question answering and refinement
+  const chain = loadQARefineChain(model)
+
+  // Initializes the embeddings model to convert documents into vector representations
+  const embeddings = new OpenAIEmbeddings()
+
+  // Creates a vector store in memory from the documents, using their embeddings to allow similarity search
+  const store = await MemoryVectorStore.fromDocuments(docs, embeddings)
+
+  // Performs a similarity search to find the most relevant documents to the question
+  const relevantDocs = await store.similaritySearch(question)
+
+  // Invokes the question-answering chain with the relevant documents and the question, and waits for the result
+  const res = await chain.invoke({
+    input_documents: relevantDocs, // The documents relevant to the question
+    question, // The question to be answered
+  })
+
+  // Returns the text output from the question-answering chain
+  return res.output_text
 }
