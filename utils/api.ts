@@ -38,3 +38,33 @@ export const createNewEntry = async () => {
     return data.data
   }
 }
+
+/**
+ * Sends a question to the server and returns the server's response.
+ * 
+ * @param {string} question - The question to be sent to the server.
+ * @returns {Promise<any>} - A promise that resolves with the server's response.
+ */
+export const askQuestion = async (question: string): Promise<any> => {
+  // Construct a Request object with the URL to the API endpoint for questions
+  // and set the method to 'POST' with the question included in the body as JSON.
+  const request = new Request(createURL(`/api/question`), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // Indicate that the request body is JSON
+    },
+    body: JSON.stringify({ question }), // Convert the question object to a JSON string
+  });
+
+  // Send the request to the server using the fetch API.
+  const res = await fetch(request);
+
+  // Check if the response status is 'OK' (status in the range 200-299).
+  if (res.ok) {
+    // If the response is OK, parse the response body as JSON and return it.
+    return res.json();
+  } else {
+    // If the response is not OK, throw an error indicating server issues.
+    throw new Error('Something went wrong on API server!');
+  }
+}
