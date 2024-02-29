@@ -11,6 +11,7 @@ import Link from 'next/link'
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Journal', href: '/journal' },
+  { label: 'History', href: '/history' },
 ]
 
 /**
