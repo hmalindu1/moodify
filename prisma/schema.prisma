@@ -55,5 +55,5 @@ model Analysis {
   sentimentScore Float @default(0)
 
   @@unique([entryId])
-  @@unique([userId])
+  @@index([userId])
 }
