@@ -10,17 +10,13 @@ import { prisma } from '@/utils/db'
 import { qa } from '@/utils/ai'
 import { NextResponse } from 'next/server'
 
-interface Request {
-  json: () => Promise<{ question: string }>
-}
-
 /**
  * Parse the incoming request to extract the question field from the JSON body
  *
  * @param {Object} request - the incoming request object
  * @return {Promise<Object>} a JSON object containing the AI's answer to the question
  */
-export const POST = async (request: Request): Promise<object> => {
+export const POST = async (request): Promise<object> => {
   // Parse the incoming request to extract the question field from the JSON body
   const { question } = await request.json()
 
