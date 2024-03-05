@@ -9,6 +9,11 @@ import HistoryCharts from '@/components/HistoryCharts'
 import { getUserByClerkId } from '@/utils/auth'
 import { prisma } from '@/utils/db'
 
+/**
+ * Asynchronously retrieves user data and calculates the average sentiment score of the analyses.
+ *
+ * @return {Object} Object containing the analyses and the average sentiment score.
+ */
 const getData = async () => {
   const user = await getUserByClerkId()
   const analyses = await prisma.analysis.findMany({
