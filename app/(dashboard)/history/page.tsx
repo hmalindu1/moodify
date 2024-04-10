@@ -31,6 +31,11 @@ const getData = async () => {
   return { analyses, avg }
 }
 
+/**
+ * Fetches data, calculates average sentiment, and displays history charts.
+ *
+ * @return {JSX.Element} The JSX element with average sentiment and history charts.
+ */
 const History = async () => {
   const { analyses, avg } = await getData()
   return (
