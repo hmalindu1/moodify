@@ -9,6 +9,13 @@ import { getUserByClerkId } from '@/utils/auth'
 import { prisma } from '@/utils/db'
 import { NextResponse } from 'next/server'
 
+/**
+ * Updates a journal entry with new content, analyzes the updated content, and returns the updated entry with analysis.
+ *
+ * @param {Request} request - the request object
+ * @param {Object} params - parameters object containing ID
+ * @return {NextResponse} response object with updated entry and analysis
+ */
 export const PATCH = async (request: Request, { params }) => {
   const { content } = await request.json()
   const user = await getUserByClerkId()
