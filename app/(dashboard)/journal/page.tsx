@@ -27,6 +27,11 @@ const getEntries = async () => {
   return entries
 }
 
+/**
+ * Renders the Journal page with a list of journal entries.
+ *
+ * @return {Promise<JSX.Element>} The rendered Journal page.
+ */
 const JournalPage = async () => {
   const entries = await getEntries()
 
