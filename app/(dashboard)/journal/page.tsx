@@ -13,6 +13,11 @@ import Link from 'next/link'
 import { analyze } from '@/utils/ai'
 import Question from '@/components/Question'
 
+/**
+ * Retrieves the journal entries for the current user.
+ *
+ * @return {Promise<Array<JournalEntry>>} An array of journal entries.
+ */
 const getEntries = async () => {
   const user = await getUserByClerkId()
   const entries = await prisma.journalEntry.findMany({
